@@ -30,7 +30,9 @@ namespace AdventOfCode2025.Days.Day1
         {
             bool isStartAt0 = false;
             if (Value == 0)
+            {
                 isStartAt0 = true;
+            }
             int reste = value / 100;
             value = value % 100;
             _value = (_value + (value * (dir == Direction.Right ? 1 : -1)));
@@ -48,7 +50,8 @@ namespace AdventOfCode2025.Days.Day1
             }
             else if (_value == 0)
             {
-                reste++;
+                if (!isStartAt0)
+                    reste++; 
             }
 
             if (_verbose)

@@ -14,8 +14,8 @@ namespace AdventOfCode2025.Days
         }
         public override void ReadInputFile()
         {
-           //FileReader fileReader = new FileReader("TestInput.txt");
-            FileReader fileReader = new FileReader("InputDay1.txt");
+           FileReader fileReader = new FileReader("TestInput.txt");
+            //FileReader fileReader = new FileReader("InputDay1.txt");
             _values = fileReader.ReadAndSplitInto2DList();
             fileReader.Close();
         }
