@@ -20,8 +20,6 @@ namespace AdventOfCode2025.Days
             fileReader.Close();
         }
 
-
-
         public override long GetSolution1Star()
         {
             long solution = 0;
@@ -55,7 +53,6 @@ namespace AdventOfCode2025.Days
                 {
                     solution += dial.Turn(Dial.Direction.Left, int.Parse(line[1..]));
                 }
-          
             }
             return solution;
         }

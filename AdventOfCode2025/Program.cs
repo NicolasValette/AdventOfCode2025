@@ -7,7 +7,7 @@ namespace AdventOfCode2025
     {
         static void Main(string[] args)
         {
-            Solver day = new SolverDay1(true);
+            Solver day = new SolverDay2(true);
 
             #region Solution 1 étoile
             Console.WriteLine("####################");
