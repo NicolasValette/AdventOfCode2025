@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "AdventOfCode2025": {
+      "commandName": "Project"
+    },
+    "AoCTestSample": {
+      "commandName": "Project",
+      "commandLineArgs": "test"
+    }
+  }
+}

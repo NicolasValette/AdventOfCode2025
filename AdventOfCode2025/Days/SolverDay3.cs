@@ -11,7 +11,7 @@ namespace AdventOfCode2025.Days
             _verbose = verbose;
             ReadInputFile();
         }
-        public override void ReadInputFile()
+        public void ReadInputFile()
         {
             //FileReader fileReader = new FileReader("TestInput.txt");
             FileReader fileReader = new FileReader("InputDay3.txt"); _verbose = false;

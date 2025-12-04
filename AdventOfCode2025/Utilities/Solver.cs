@@ -27,7 +27,7 @@ namespace AdventOfCode2025.Utilities
         }
 
 
-        public abstract void ReadInputFile();
+       // public abstract void ReadInputFile(bool isSample = false);
 
     }
 }

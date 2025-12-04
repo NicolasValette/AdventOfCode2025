@@ -8,7 +8,15 @@ namespace AdventOfCode2025
     {
         static void Main(string[] args)
         {
-            Solver day = new SolverDay3(true);
+            Solver day;
+            if (args.Length == 0)
+            {
+                day = new SolverDay4("InputDay4.txt", false);
+            }
+            else
+            {
+                day = new SolverDay4();
+            }
             Stopwatch sw = new Stopwatch();
             
             #region Solution 1 étoile
