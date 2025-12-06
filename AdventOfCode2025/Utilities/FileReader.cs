@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AdventOfCode2025.Utilities
 {
+    public enum FileReaderOptions
+    {
+        None,
+        WithEmptySpace
+    }
     internal class FileReader
     {
         private const string INPUTPATH = "E:\\Dev\\ProjetsVisual\\AdventOfCode2025\\AdventOfCode2025\\Ressources\\Input\\";
@@ -47,13 +53,22 @@ namespace AdventOfCode2025.Utilities
             string[] lines = _stream.ReadToEnd().Split('\n').Select(x => x.Trim()).ToArray();
             return lines;
         }
-        public char[][] ReadToEndAndSplitInto2DCharArray()
+        public char[][] ReadToEndAndSplitInto2DCharArray(FileReaderOptions option = FileReaderOptions.None)
         {
-
-            var lines = _stream.ReadToEnd().Split('\n').Select(x => x.Trim()).ToArray();
-            var charArray = lines.Select(x => x.ToArray()).ToArray();
-            return charArray;
+            if (option == FileReaderOptions.None)
+            {
+                var lines = _stream.ReadToEnd().Split('\n').Select(x => x.Trim()).ToArray();
+                var charArray = lines.Select(x => x.ToArray()).ToArray();
+                return charArray;
+            }
+            else //FileReaderOptions.WithEmptySpace
+            {
+                var lines = _stream.ReadToEnd().Split('\n');
+                var charArray = lines.Select(x => x.ToArray()).ToArray();
+                return charArray;
+            }
         }
+
         public List<string> ReadToEndAndSplit(char separator)
         {
             var lines = _stream.ReadToEnd().Split(separator).Select(x => x.Trim()).ToList();
