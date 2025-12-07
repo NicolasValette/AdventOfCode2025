@@ -11,3 +11,5 @@ Day  4: Printing Department => 2/2
 Day  5: Cafeteria => 2/2
 
 Day  6: Trash Compactor => 2/2
+
+Day  7: Laboratories => 2/2
