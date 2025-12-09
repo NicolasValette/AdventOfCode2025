@@ -11,11 +11,11 @@ namespace AdventOfCode2025
             Solver day;
             if (args.Length == 0)
             {
-                day = new SolverDay7("InputDay7.txt", false);
+                day = new SolverDay9("InputDay9.txt", false);
             }
             else
             {
-                day = new SolverDay7();
+                day = new SolverDay9();
             }
             Stopwatch sw = new Stopwatch();
             
