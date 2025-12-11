@@ -1,7 +1,4 @@
 ﻿using AdventOfCode2025.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Numerics;
 using System.Text;
 
@@ -9,6 +6,7 @@ namespace AdventOfCode2025.Days
 {
     internal class SolverDay8 : Solver
     {
+        private const int NUMBER_OF_CONNEXION = 1000;
         List<Vector3> _coords;
         Dictionary<(Vector3, Vector3), float> _distances;
         List<List<Vector3>> _circuits;
@@ -87,7 +85,7 @@ namespace AdventOfCode2025.Days
         {
             GetDistance();
             int numberOfConnexion = 0;
-            foreach(var dist in _distances.OrderBy(key => key.Value))
+            foreach(var dist in _distances.OrderBy(key => key.Value).Take(NUMBER_OF_CONNEXION))
             {
                 
                 StringBuilder strb = new StringBuilder();
@@ -136,13 +134,13 @@ namespace AdventOfCode2025.Days
                     }
                     _circuits.Add(mergedCircuit);
                     connect = true;
-                    numberOfConnexion++;
-                    
+                    //numberOfConnexion++;
                 }
                 else
                 {
                     if (_verbose)
                         strb.Append($" Already in circuit {index.Item2}.");
+                    connect = true;
                 }
                 if (_verbose)
                 {
@@ -151,11 +149,12 @@ namespace AdventOfCode2025.Days
                 }
                 if (connect)
                     numberOfConnexion++;
-                if (numberOfConnexion >= 1000)
-                    break;
+               
             }
             if (_verbose)
                 PrintCircuit();
+            Console.WriteLine($"Number of connexion : {numberOfConnexion}");
+            Console.WriteLine($"Number of circuit : {_circuits.Count}");
             int numberOfLargestCircuit = 0;
             long solution = 1;
             foreach (var circuit in _circuits.OrderByDescending(x => x.Count))
@@ -165,10 +164,94 @@ namespace AdventOfCode2025.Days
                 if (numberOfLargestCircuit >= 3)
                     break;
             }
-            foreach (var item in _circuits.OrderByDescending(x => x.Count))
+            if (_verbose)
+                foreach (var item in _circuits.OrderByDescending(x => x.Count))
+                {
+                    Console.WriteLine(item.Count);
+                }
+            return solution;
+        }
+
+        public override long GetSolution2Star()
+        {
+            long solution = 0;
+            long long1 = 0, long2 = 0;
+            foreach (var dist in _distances.OrderBy(key => key.Value).Skip(NUMBER_OF_CONNEXION))
             {
-                Console.WriteLine(item.Count);
+                if (_circuits.Count == 1 && _circuits[0].Count == _coords.Count)
+                {
+                    break;
+                }
+                else
+                {
+                    StringBuilder strb = new StringBuilder();
+                    bool connect = false;
+                    (int, int) index = IsPresentInOneCircuit(dist.Key.Item1, dist.Key.Item2);
+                    if (_verbose)
+                        strb.Append($"Connect {dist.Key.Item1} - {dist.Key.Item2} (dist : {dist.Value}) => ");
+                    if (index.Item1 == -1 && index.Item2 == -1)
+                    {
+                        if (_verbose)
+                            strb.Append(" New Circuit Created;");
+                        List<Vector3> circuit = new List<Vector3>();
+                        circuit.Add(dist.Key.Item1);
+                        circuit.Add(dist.Key.Item2);
+                        _circuits.Add(circuit);
+                        connect = true;
+                    }
+                    else if (index.Item2 == -1)
+                    {
+                        if (_verbose)
+                            strb.Append($" Added to circuit number {index.Item1}.");
+                        _circuits[index.Item1].Add(dist.Key.Item2);
+                        connect = true;
+                    }
+                    else if (index.Item1 == -1)
+                    {
+                        if (_verbose)
+                            strb.Append($" Added to circuit number {index.Item2}.");
+                        _circuits[index.Item2].Add(dist.Key.Item1);
+                        connect = true;
+
+                    }
+                    else if (index.Item1 != index.Item2)
+                    {
+                        if (_verbose)
+                            strb.Append($" Merge circuit {index.Item1} & circuit {index.Item2}.");
+                        var mergedCircuit = _circuits[index.Item1].Union(_circuits[index.Item2]).ToList();
+                        if (index.Item2 > index.Item1)
+                        {
+                            _circuits.Remove(_circuits[index.Item2]);
+                            _circuits.Remove(_circuits[index.Item1]);
+                        }
+                        else
+                        {
+                            _circuits.Remove(_circuits[index.Item1]);
+                            _circuits.Remove(_circuits[index.Item2]);
+                        }
+                        _circuits.Add(mergedCircuit);
+                        connect = true;
+                        //numberOfConnexion++;
+                    }
+                    else
+                    {
+                        if (_verbose)
+                            //  strb.Append($" Already in circuit {index.Item2}.");
+                            connect = true;
+                    }
+                    if (_verbose)
+                    {
+                        strb.AppendLine();
+                        Console.WriteLine(strb.ToString());
+                    }
+                    long1 =(long) dist.Key.Item1.X;
+                    long2 =(long) dist.Key.Item2.X;
+                    solution = long1 * long2;
+                }
             }
+            if (_verbose)
+                PrintCircuit();
+
             return solution;
         }
     }

@@ -13,3 +13,11 @@ Day  5: Cafeteria => 2/2
 Day  6: Trash Compactor => 2/2
 
 Day  7: Laboratories => 2/2
+
+Day  8: Playground => 2/2
+
+Day  9: Movie Theater => 1/2
+
+Day 10: Factory => 0/2
+
+Day 11: Reactor => 1/2
