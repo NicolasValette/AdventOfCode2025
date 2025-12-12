@@ -21,3 +21,5 @@ Day  9: Movie Theater => 1/2
 Day 10: Factory => 0/2
 
 Day 11: Reactor => 1/2
+
+Day 12: Christmas Tree Farm => 1/2

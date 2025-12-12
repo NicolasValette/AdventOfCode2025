@@ -1,6 +1,8 @@
 ﻿using AdventOfCode2025.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using Toolbox.Datas;
 
@@ -38,8 +40,27 @@ namespace AdventOfCode2025.Days
 
         public override long GetSolution1Star()
         {
-            Console.WriteLine(_graph.BFSFromStart());
             return -1;
+            List<HashSet<string>> paths = new List<HashSet<string>>();
+             _graph.FindAllPath(ref  paths);
+            if (_verbose)
+                Console.WriteLine(_graph.BFSFromStart());
+            return paths.Count;
+        }
+        public override long GetSolution2Star()
+        {
+            _graph.InitStartingNode("svr");
+            List<HashSet<string>> paths = new List<HashSet<string>>();
+            _graph.FindAllPath(ref paths);
+            long solution = 0;
+            foreach (var item in paths)
+            {
+                if (item.Contains("dac") && item.Contains("fft"))
+                {
+                    solution++;
+                }
+            }
+            return solution;
         }
     }
 }
