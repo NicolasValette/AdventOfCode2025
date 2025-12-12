@@ -47,20 +47,35 @@ namespace AdventOfCode2025.Days
                 Console.WriteLine(_graph.BFSFromStart());
             return paths.Count;
         }
-        public override long GetSolution2Star()
+
+        private Dictionary<string, long> pathMemory = new Dictionary<string, long>();
+        private long CountPaths(string start, string end, string avoid = "")
         {
-            _graph.InitStartingNode("svr");
-            List<HashSet<string>> paths = new List<HashSet<string>>();
-            _graph.FindAllPath(ref paths);
-            long solution = 0;
-            foreach (var item in paths)
+            if (start == end) return 1;
+            if (start == avoid) return 0;
+            if (pathMemory.TryGetValue(start, out long val))
             {
-                if (item.Contains("dac") && item.Contains("fft"))
-                {
-                    solution++;
-                }
+                return val;
             }
-            return solution;
+            long validPaths = 0;
+            if (!_graph._edges.ContainsKey(start)) return 0;
+            foreach (var next in _graph._edges[start])
+            {
+                validPaths += CountPaths(next, end, avoid);
+            }
+            pathMemory.Add(start, validPaths);
+            return validPaths;
+        }
+
+
+        public override long GetSolution2Star() //0.005
+        {
+            var svrToFft = CountPaths("svr", "fft", "dac");
+            pathMemory.Clear();
+            var FftToDac = CountPaths("fft", "dac");
+            pathMemory.Clear();
+            var dacToOuput = CountPaths("dac", "out");
+            return svrToFft * FftToDac * dacToOuput;
         }
     }
 }
